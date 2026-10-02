@@ -67,13 +67,21 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+import dj_database_url
 
+# Initialize the DATABASES dictionary first
+DATABASES = {}
+
+# Set the default configuration
+DATABASES['default'] = dj_database_url.config(
+    default='postgres://u89a9lmtdtb74d:pb0ffeb6667fb3cd0a2da9cdf11eda3c69aa94f294a3e54531256fbe130d92457@cd6knr45o9faqk.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com:5432/dbqtmbg42mkokm'
+)
+
+# Fetch production database environment variables if they exist
+db_from_env = dj_database_url.config(conn_max_age=600)
+
+# Corrected ".updat" to ".update"
+DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/6.1/ref/settings/#auth-password-validators
